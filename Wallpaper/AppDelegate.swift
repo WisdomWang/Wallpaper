@@ -16,6 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let mainVC  =  ViewController()
+        let pcVC = PCViewController()
+        let mainNav = UINavigationController(rootViewController: mainVC)
+        let pcNav = UINavigationController(rootViewController: pcVC)
+        mainNav.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "dis_tabbar_normal"), selectedImage: UIImage(named: "dis_tabbar_selected"))
+        pcNav.tabBarItem =  UITabBarItem(title: "我的", image: UIImage(named: "pc_tabbar_normal"), selectedImage: UIImage(named: "pc_tabbar_selected"))
+        
+        let tabbar = UITabBarController()
+        tabbar.tabBar.tintColor = UIColor.red
+        tabbar.viewControllers = [mainNav,pcNav]
+        
+        window?.backgroundColor = UIColor.white
+        window?.rootViewController = tabbar
+        window?.makeKeyAndVisible()
+        
+        
         return true
     }
 

@@ -1,3 +1,5 @@
+
+
 //
 //  mainModel.swift
 //  Wallpaper
@@ -7,7 +9,23 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class mainModel: NSObject {
-
+class mainModel: NSObject,Mappable {
+    
+    var imageUrlBig:String?
+    var imageUrlSmall:String?
+    var title:String?
+    
+    required init?(map: Map) {
+        
+    }
+    
+    func mapping(map: Map) {
+        
+        imageUrlBig<-map["image_url"]
+        imageUrlSmall<-map["thumb_url"]
+        title<-map["title"]
+    }
+    
 }
