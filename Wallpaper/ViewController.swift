@@ -118,7 +118,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let user:mainModel = mainDataArr[indexPath.row] as! mainModel
-        let popPicView = PopPicView(frame: self.view.frame, theUrl: user.imageUrlBig!)
+        let popPicView = PopPicView(frame: self.view.frame, theUrl: user.imageUrlBig!,theTitle:user.title!)
         let window = UIApplication.shared.windows.first
         window?.insertSubview(popPicView, aboveSubview: self.view)
     }

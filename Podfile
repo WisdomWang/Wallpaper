@@ -11,5 +11,6 @@ target 'Wallpaper' do
   pod 'Kingfisher'
   pod 'Alamofire'
   pod "ESPullToRefresh"
+  pod 'Toast-Swift'
 
 end

@@ -10,6 +10,7 @@
 
 import UIKit
 import Hue
+import Toast_Swift
 
 class PopPicView: UIView {
 
@@ -22,11 +23,12 @@ class PopPicView: UIView {
     */
     
     var alertView:UIView!
+    var imageView:UIImageView!
+    var isOrNotAlert = false
     
-    convenience  init(frame: CGRect,theUrl:String) {
+    convenience  init(frame: CGRect,theUrl:String,theTitle:String) {
         
         self.init(frame: frame)
-        var imageView:UIImageView!
     
         let bg = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
         bg.backgroundColor = UIColor.black
@@ -43,7 +45,22 @@ class PopPicView: UIView {
             make.centerY.equalTo(bg.snp.centerY)
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(popBack))
+        let titleLabel = UILabel()
+        titleLabel.text = theTitle
+        titleLabel.textColor = UIColor.white
+        titleLabel.font = UIFont.systemFont(ofSize: 13)
+        titleLabel.numberOfLines = 0
+        self.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { (make) in
+            
+            make.bottom.equalTo(self.snp.bottom).offset(-16)
+            make.left.equalTo(self.snp.left).offset(16)
+            make.right.equalTo(self.snp.right).offset(-16)
+        }
+        
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapClick))
         self.addGestureRecognizer(tap)
         
         let tap1 = UISwipeGestureRecognizer(target: self, action: #selector(popBack))
@@ -54,7 +71,7 @@ class PopPicView: UIView {
         self.addGestureRecognizer(longTap)
         
         
-        alertView = UIView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 100))
+        alertView = UIView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 150))
         alertView.backgroundColor = UIColor.white
         self.addSubview(alertView)
         let saveButton = UIButton(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 50))
@@ -64,7 +81,14 @@ class PopPicView: UIView {
         saveButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         saveButton.addTarget(self, action: #selector(save), for: .touchUpInside)
         
-        let cancelButton = UIButton(frame: CGRect(x: 0, y: 50, width: ScreenWidth, height: 50))
+        let collectionButton = UIButton(frame: CGRect(x: 0, y: 50, width: ScreenWidth, height: 50))
+        alertView.addSubview(collectionButton)
+        collectionButton.setTitle("收藏", for: .normal)
+        collectionButton.setTitleColor(UIColor.black, for: .normal)
+        collectionButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        collectionButton.addTarget(self, action: #selector(collcetion), for: .touchUpInside)
+        
+        let cancelButton = UIButton(frame: CGRect(x: 0, y: 100, width: ScreenWidth, height: 50))
         alertView.addSubview(cancelButton)
         cancelButton.setTitle("取消", for: .normal)
         cancelButton.setTitleColor(UIColor.black, for: .normal)
@@ -74,6 +98,10 @@ class PopPicView: UIView {
         let line = UIView(frame: CGRect(x: 0, y: 50, width: ScreenWidth, height: 1))
         alertView.addSubview(line)
         line.backgroundColor = UIColor(hex: "#999999")
+        
+        let line1 = UIView(frame: CGRect(x: 0, y: 100, width: ScreenWidth, height: 1))
+        alertView.addSubview(line1)
+        line1.backgroundColor = UIColor(hex: "#999999")
         
     }
     
@@ -96,33 +124,84 @@ class PopPicView: UIView {
         }
     }
     
+    @objc func tapClick () {
+    
+        if isOrNotAlert == false {
+            
+            UIView.animate(withDuration: 0.25, animations: {
+                self.alpha = 0
+            }) { (finished) in
+                
+                self.removeFromSuperview()
+                
+            }
+        } else {
+            
+            isOrNotAlert = false
+            UIView.animate(withDuration: 0.25, animations: {
+                self.alertView.alpha = 0
+            }) { (finished) in
+                
+                self.alertView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 150)
+                
+            }
+        }
+    }
+    
     @objc func savePic() {
+        
+        self.isOrNotAlert = true
         
         UIView.animate(withDuration: 0.5) {
             
-            self.alertView.frame = CGRect(x: 0, y: ScreenHeight-100, width: ScreenWidth, height: 100)
+            self.alertView.frame = CGRect(x: 0, y: ScreenHeight-150, width: ScreenWidth, height: 150)
             self.alertView.alpha = 1
         }
         
     }
     @objc func cancel () {
         
+        self.isOrNotAlert = false
         UIView.animate(withDuration: 0.25, animations: {
             self.alertView.alpha = 0
         }) { (finished) in
             
-           self.alertView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 100)
+           self.alertView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 150)
             
         }
     }
+    
+    @objc func collcetion () {
+        
+        self.isOrNotAlert = false
+    }
+    
     @objc func save () {
+        
+        self.isOrNotAlert = false
         
         UIView.animate(withDuration: 0.25, animations: {
             self.alertView.alpha = 0
         }) { (finished) in
             
-            self.alertView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 100)
+            self.alertView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 150)
+            UIImageWriteToSavedPhotosAlbum(self.imageView.image!, self, #selector(self.didSavePic(image:error:contextInfo:)), nil)
             
         }
     }
+    
+    @objc func didSavePic (image:UIImage,error:Error,contextInfo:Any) {
+    
+    let textLabel = UILabel(frame: CGRect(x: ScreenWidth/2-50, y: ScreenHeight/2-20, width: 100, height: 40))
+    textLabel.text = "图片已保存"
+    textLabel.textAlignment = .center
+    textLabel.font = UIFont.systemFont(ofSize: 15)
+    textLabel.textColor = UIColor.black
+    textLabel.backgroundColor = UIColor(hex: "#eeeeee")
+    
+    self.showToast(textLabel, duration: 1, position: .center) { (bool) in
+        
+    }
+    }
+    
 }
