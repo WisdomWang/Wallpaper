@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Kingfisher
+import Toast_Swift
 
 class PCViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
@@ -44,6 +46,48 @@ class PCViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         cell.accessoryType = .disclosureIndicator
         cell.textLabel!.text = titleArr[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {
+            
+            
+        }
+        else if indexPath.row == 1 {
+            
+           let cache = KingfisherManager.shared.cache
+            var text:String!
+            cache.calculateDiskCacheSize { (size) in
+                print(size)
+                text = "您确定清理缓存\(size/1024/1024)M么"
+                let alert = UIAlertController(title: "提示", message: text, preferredStyle: .alert)
+                let actionCancel = UIAlertAction(title: "取消", style: .cancel) { (alert) in
+                    
+                }
+                let actionNext = UIAlertAction(title: "确定", style: .default) { (alert) in
+                    cache.clearDiskCache()
+                    
+                    let textLabel = UILabel(frame: CGRect(x: ScreenWidth/2-50, y: ScreenHeight/2-20, width: 100, height: 40))
+                    textLabel.text = "已清理"
+                    textLabel.textAlignment = .center
+                    textLabel.font = UIFont.systemFont(ofSize: 15)
+                    textLabel.textColor = UIColor.black
+                    textLabel.backgroundColor = UIColor(hex: "#eeeeee")
+                    
+                    self.view.showToast(textLabel, duration: 1, position: .center) { (bool) in
+                        
+                    }
+                    
+                }
+                alert.addAction(actionCancel)
+                alert.addAction(actionNext)
+                self.present(alert, animated: true) {
+                    
+                }
+            }
+    
+        }
     }
     
 
