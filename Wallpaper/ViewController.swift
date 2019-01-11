@@ -152,6 +152,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         tempButton.setTitleColor(UIColor.black, for: .normal)
         button.setTitleColor(UIColor.red, for: .normal)
         tempTag = button.tag
+        page = 1
         
         collectionView?.es.startPullToRefresh()
     }

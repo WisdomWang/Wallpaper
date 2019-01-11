@@ -52,6 +52,9 @@ class PCViewController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         if indexPath.row == 0 {
             
+            let vc = CollectionViewController()
+            vc.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(vc, animated: true)
             
         }
         else if indexPath.row == 1 {

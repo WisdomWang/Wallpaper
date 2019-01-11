@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A02FC8C21D75C460075F0C5 /* mainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A02FC8B21D75C460075F0C5 /* mainModel.swift */; };
+		4A13886821E889E5008971DB /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A13886721E889E5008971DB /* CollectionViewController.swift */; };
 		4A47578821C8E15300DD931D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47578721C8E15300DD931D /* AppDelegate.swift */; };
 		4A47578A21C8E15300DD931D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47578921C8E15300DD931D /* ViewController.swift */; };
 		4A47578D21C8E15300DD931D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A47578B21C8E15300DD931D /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		2FD3C662B5ADDFD6E106AB61 /* Pods-Wallpaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallpaper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wallpaper/Pods-Wallpaper.debug.xcconfig"; sourceTree = "<group>"; };
 		4A02FC8B21D75C460075F0C5 /* mainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainModel.swift; sourceTree = "<group>"; };
+		4A13886721E889E5008971DB /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		4A47578421C8E15300DD931D /* Wallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A47578721C8E15300DD931D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A47578921C8E15300DD931D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				4A47578921C8E15300DD931D /* ViewController.swift */,
 				4A60D9EE21DCB13A000405E1 /* PopPicView.swift */,
 				4AFF477F21CCC8EE00416402 /* PCViewController.swift */,
+				4A13886721E889E5008971DB /* CollectionViewController.swift */,
 				4A47578B21C8E15300DD931D /* Main.storyboard */,
 				4A47578E21C8E15500DD931D /* Assets.xcassets */,
 				4A47579021C8E15500DD931D /* LaunchScreen.storyboard */,
@@ -365,6 +368,7 @@
 				4A47578821C8E15300DD931D /* AppDelegate.swift in Sources */,
 				4A02FC8C21D75C460075F0C5 /* mainModel.swift in Sources */,
 				4AE90F1E21D617F900022427 /* MainCell.swift in Sources */,
+				4A13886821E889E5008971DB /* CollectionViewController.swift in Sources */,
 				4A60D9EF21DCB13A000405E1 /* PopPicView.swift in Sources */,
 				4AFF478021CCC8EE00416402 /* PCViewController.swift in Sources */,
 			);
@@ -544,7 +548,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Wallpaper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZexueEducation.Wallpaper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -559,7 +566,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Wallpaper/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZexueEducation.Wallpaper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -574,7 +584,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WallpaperTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZexueEducation.WallpaperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -590,7 +604,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WallpaperTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZexueEducation.WallpaperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -605,7 +623,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WallpaperUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZexueEducation.WallpaperUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -620,7 +642,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WallpaperUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZexueEducation.WallpaperUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabbar = UITabBarController()
         tabbar.tabBar.tintColor = UIColor.red
         tabbar.viewControllers = [mainNav,pcNav]
-        
+       
         window?.backgroundColor = UIColor.white
         window?.rootViewController = tabbar
         window?.makeKeyAndVisible()
