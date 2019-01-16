@@ -34,14 +34,14 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         self.view.backgroundColor = UIColor.white
         category = "All"
         
-        let scrollView = UIScrollView(frame: CGRect(x: 0, y: statusBarHeight, width: ScreenWidth, height: 40))
+        let scrollView = UIScrollView(frame: CGRect(x: 0, y: statusBarHeight, width: ScreenWidth, height: 50))
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.bounces = false
+        scrollView.bounces = true
         
         for i in 0..<textArr.count {
             let theX = i%7
-            let button = UIButton(frame: CGRect(x: theX*60, y: 0, width: 60, height: 40))
+            let button = UIButton(frame: CGRect(x: theX*60, y: 0, width: 60, height: 50))
             button.setTitle(textArr[i], for: .normal)
             button.backgroundColor = UIColor.white
             button.setTitleColor(UIColor.black, for: .normal)
@@ -58,7 +58,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             }
             
         }
-        scrollView.contentSize = CGSize(width: 420, height: 40)
+        scrollView.contentSize = CGSize(width: 420, height: 50)
         self.view.addSubview(scrollView)
         
         let layout = UICollectionViewFlowLayout()
@@ -68,7 +68,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         layout.scrollDirection = .vertical
        // layout.sectionInset = UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5)
         
-        collectionView = UICollectionView.init(frame: CGRect(x: 0, y: statusBarHeight+40, width: ScreenWidth, height: ScreenHeight), collectionViewLayout: layout)
+        collectionView = UICollectionView.init(frame: CGRect(x: 0, y: statusBarHeight+50, width: ScreenWidth, height: ScreenHeight), collectionViewLayout: layout)
         collectionView?.backgroundColor = UIColor.white
         collectionView?.delegate = self
         collectionView?.dataSource = self
