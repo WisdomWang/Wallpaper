@@ -19,17 +19,16 @@ class CollectionViewController: UIViewController,UICollectionViewDelegate,UIColl
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
         self.navigationItem.title = "我的收藏"
         let path = NSHomeDirectory() as NSString
         let docPath = (path as String) + "/Documents/" + "data.plist"
         let arr = NSArray.init(contentsOfFile: docPath)
+       
         if !(arr == nil) {
             
-            for i in 0..<arr!.count {
-                
-                let img = UIImage(data: arr![i] as! Data)
-                mainDataArr.append(img as Any)
-            }
+             mainDataArr =  arr as! [Any]
+
         }
        
         let layout = UICollectionViewFlowLayout()
@@ -56,13 +55,21 @@ class CollectionViewController: UIViewController,UICollectionViewDelegate,UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell:MainCell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! MainCell
-        cell.image.image = (mainDataArr[indexPath.row] as! UIImage)
+       // cell.image.image = (mainDataArr[indexPath.row] as! UIImage)
+        let url = URL(string: mainDataArr[indexPath.row] as! String)
+        cell.image.kf.setImage(with: url)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let popPicView =  PopPicView(frame: self.view.frame, theImage: mainDataArr[indexPath.row] as! UIImage)
+        let popPicView = PopPicView(frame: self.view.frame, theUrl: mainDataArr[indexPath.row] as! String, theTitle: "", theType: .pc)
+        popPicView.pushType = .pc
+        popPicView.deleteCallBack = {
+
+            self.mainDataArr.remove(at: indexPath.row);
+            collectionView.reloadData()
+        }
         let window = UIApplication.shared.windows.first
         window?.insertSubview(popPicView, aboveSubview: self.view)
         

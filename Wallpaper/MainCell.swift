@@ -10,8 +10,10 @@ import UIKit
 import SnapKit
 
 class MainCell: UICollectionViewCell {
+    
     var image:UIImageView!
     var label:UILabel!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         image = UIImageView()

@@ -12,6 +12,12 @@ import UIKit
 import Hue
 import Toast_Swift
 
+enum sourceType {
+    case main,pc
+}
+
+typealias deleteBack = ()->Void
+
 class PopPicView: UIView {
 
     /*
@@ -25,61 +31,16 @@ class PopPicView: UIView {
     var alertView:UIView!
     var imageView:UIImageView!
     var isOrNotAlert = false
+    var imgStr = ""
+    var pushType:sourceType!
+    var deleteCallBack:deleteBack?
     
-    
-    convenience  init(frame: CGRect,theImage:UIImage) {
-        self.init(frame: frame)
-        let bg = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
-        bg.backgroundColor = UIColor.black
-        self.addSubview(bg)
-        
-        imageView = UIImageView()
-        imageView.image = theImage
-        bg.addSubview(imageView)
-        imageView.isUserInteractionEnabled = true
-        imageView.snp.makeConstraints { (make) in
-            
-            make.centerX.equalTo(bg.snp.centerX)
-            make.centerY.equalTo(bg.snp.centerY)
-        }
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapClick))
-        self.addGestureRecognizer(tap)
-        
-        let tap1 = UISwipeGestureRecognizer(target: self, action: #selector(popBack))
-        tap1.direction = .down
-        self.addGestureRecognizer(tap1)
-        
-        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(savePicinCollectionVC))
-        self.addGestureRecognizer(longTap)
-        
-        
-        alertView = UIView(frame: CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 100))
-        alertView.backgroundColor = UIColor.white
-        self.addSubview(alertView)
-        let saveButton = UIButton(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 50))
-        alertView.addSubview(saveButton)
-        saveButton.setTitle("保存", for: .normal)
-        saveButton.setTitleColor(UIColor.black, for: .normal)
-        saveButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        saveButton.addTarget(self, action: #selector(save), for: .touchUpInside)
-        
-        let cancelButton = UIButton(frame: CGRect(x: 0, y: 50, width: ScreenWidth, height: 50))
-        alertView.addSubview(cancelButton)
-        cancelButton.setTitle("取消", for: .normal)
-        cancelButton.setTitleColor(UIColor.black, for: .normal)
-        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-        
-        let line = UIView(frame: CGRect(x: 0, y: 50, width: ScreenWidth, height: 1))
-        alertView.addSubview(line)
-        line.backgroundColor = UIColor(hex: "#999999")
-        
-    }
-    
-    convenience  init(frame: CGRect,theUrl:String,theTitle:String) {
+    convenience  init(frame: CGRect,theUrl:String,theTitle:String,theType:sourceType) {
         
         self.init(frame: frame)
+        
+        imgStr = theUrl
+        pushType = theType
     
         let bg = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
         bg.backgroundColor = UIColor.black
@@ -134,7 +95,12 @@ class PopPicView: UIView {
         
         let collectionButton = UIButton(frame: CGRect(x: 0, y: 50, width: ScreenWidth, height: 50))
         alertView.addSubview(collectionButton)
-        collectionButton.setTitle("收藏", for: .normal)
+        if pushType == .main {
+            collectionButton.setTitle("收藏", for: .normal)
+        } else {
+            collectionButton.setTitle("取消收藏", for: .normal)
+        }
+        
         collectionButton.setTitleColor(UIColor.black, for: .normal)
         collectionButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         collectionButton.addTarget(self, action: #selector(collcetion), for: .touchUpInside)
@@ -157,7 +123,9 @@ class PopPicView: UIView {
     }
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -211,17 +179,6 @@ class PopPicView: UIView {
         
     }
     
-    @objc func savePicinCollectionVC() {
-        
-        self.isOrNotAlert = true
-        
-        UIView.animate(withDuration: 0.5) {
-            
-            self.alertView.frame = CGRect(x: 0, y: ScreenHeight-100, width: ScreenWidth, height: 100)
-            self.alertView.alpha = 1
-        }
-        
-    }
     @objc func cancel () {
         
         self.isOrNotAlert = false
@@ -238,26 +195,58 @@ class PopPicView: UIView {
         
         self.isOrNotAlert = false
         
-        let imageData = self.imageView.image?.jpegData(compressionQuality: 1)
+        var tipTitle = ""
+
         let path = NSHomeDirectory() as NSString
         let docPath = (path as String) + "/Documents/" + "data.plist"
         
-        let arr:NSMutableArray = NSMutableArray.init(contentsOfFile: docPath)!
-        arr.add(imageData as Any)
-        arr.write(toFile: docPath, atomically: true)
+        var arr:NSMutableArray?
+        
+        arr = NSMutableArray.init(contentsOfFile: docPath)
+
+        if arr == nil {
+            
+            arr = NSMutableArray.init()
+        }
+        
+        if pushType == .main {
+            
+            tipTitle = "已收藏"
+            arr!.add(imgStr)
+            
+        } else {
+            
+            tipTitle = "已取消收藏"
+            arr?.remove(imgStr)
+        }
+        
+        arr!.write(toFile: docPath, atomically: true)
+        
         UIView.animate(withDuration: 0.25, animations: {
             self.alertView.alpha = 0
         }) { (finished) in
             
             self.alertView.frame = CGRect(x: 0, y: ScreenHeight, width: ScreenWidth, height: 150)
             let textLabel = UILabel(frame: CGRect(x: ScreenWidth/2-50, y: ScreenHeight/2-20, width: 100, height: 40))
-            textLabel.text = "已收藏"
+            textLabel.text = tipTitle
             textLabel.textAlignment = .center
             textLabel.font = UIFont.systemFont(ofSize: 15)
             textLabel.textColor = UIColor.black
             textLabel.backgroundColor = UIColor(hex: "#eeeeee")
             
             self.showToast(textLabel, duration: 1, position: .center) { (bool) in
+                
+                if self.pushType == .pc {
+                    
+                    self.deleteCallBack!()
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.alpha = 0
+                    }) { (finished) in
+                        
+                        self.removeFromSuperview()
+                        
+                    }
+                }
                 
             }
             
